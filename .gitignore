@@ -1,4 +1,4 @@
 # WHCMS PHP FILE
-/db/
-/whmcs/
-/docker-compose.yml
+db/
+whmcs/
+docker-compose.yml
