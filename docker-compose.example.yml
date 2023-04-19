@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  whmcs:
+    image: dolemhao/whmcs-apche
+    ports: # - 8080:80 set your own port
+    volumes:
+      - ./whmcs:/var/www/html
+    user: # 1000:1000 you need find your user id and group id on your host
+    networks:
+      default:
+        ipv4_address: "172.20.0.3"
+
+  db:
+    image: mariadb:latest
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: whmcs
+      MYSQL_USER: whmcs
+      MYSQL_PASSWORD: whmcs
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports: # - 8080:80 set your own port
+    environment:
+      PMA_HOST: db
+      PMA_USER: whmcs
+      PMA_PASSWORD: whmcs
+    networks:
+      default:
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.20.0.0/16"
